@@ -11,7 +11,7 @@ logging.basicConfig(
     filename="logging.txt",
     format="%(asctime)s -  %(levelname)s -  %(message)s",
 )
-# logging.disable(logging.CRITICAL)  # Note out to enable logging.
+logging.disable(logging.CRITICAL)  # Note out to enable logging.
 
 fixes = [
     "Make it at least eight characters in length.",
@@ -22,6 +22,7 @@ fixes = [
 
 
 def main() -> None:
+    """Prompt user for password, check strength and suggest fixes as needed."""
     checked = pass_check(getpass(prompt="Please enter password here: ", stream=None))
     if 0 not in checked:
         print("Password passed. Word!")
@@ -33,6 +34,7 @@ def main() -> None:
 
 
 def pass_check(password: str) -> list[bool]:
+    """Take in password string, check against conditions and return list of bools(True=pass; False=fail)."""
     length = re.compile(r"\S{8,}")
     upper = re.compile(r"[A-Z]+")
     lower = re.compile(r"[a-z]+")
