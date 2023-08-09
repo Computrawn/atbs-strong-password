@@ -13,28 +13,38 @@ logging.basicConfig(
 )
 logging.disable(logging.CRITICAL)  # Note out to enable logging.
 
+fixes = [
+    "Make it at least eight characters in length.",
+    "Include an uppercase letter.",
+    "Add a lowercase letter.",
+    "Throw in a number or two.",
+]
 
-def passcheck(password):
-    passlength = re.compile(r"\S{8,}")
-    passupper = re.compile(r"[A-Z]+")
-    passlower = re.compile(r"[a-z]+")
-    passnumber = re.compile(r"[\d{1,]")
 
-    if passlength.search(password) == None:
-        print(f"Password must contain at least eight characters.")
-    elif passupper.search(password) == None:
-        print(f"Password must contain at least one capital letter.")
-    elif passlower.search(password) == None:
-        print(f"Password must contain at least one lowercase letter.")
-    elif passnumber.search(password) == None:
-        print(f"Password must contain at least one number.")
+def main():
+    user_input = getpass(prompt="Please enter password here: ", stream=None)
+    checker_output = password_checker(user_input)
+
+    if 0 not in checker_output:
+        print("Password passed. Word!")
     else:
-        return password
+        print("Password is weak. Please consider the following:")
+        for index, check in enumerate(checker_output):
+            if not check:
+                print(fixes[index])
 
 
-print(
-    f"""A valid password must be at least eight characters long and contain at least
-one uppercase letter, one lowercase letter and one number."""
-)
-user_password = getpass(prompt="Password: ", stream=None)
-passcheck(user_password)
+def password_checker(password) -> list[bool]:
+    length = re.compile(r"\S{8,}")
+    upper = re.compile(r"[A-Z]+")
+    lower = re.compile(r"[a-z]+")
+    number = re.compile(r"[\d{1,]")
+    validators = [length, upper, lower, number]
+    results = [
+        True if validator.search(password) else False for validator in validators
+    ]
+    return results
+
+
+if __name__ == "__main__":
+    main()
