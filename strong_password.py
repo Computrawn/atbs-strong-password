@@ -27,7 +27,7 @@ def main() -> None:
     if 0 not in checked:
         print("Password passed. Word!")
     else:
-        print("Your password is weak. Please consider the following:")
+        print("Your password is weak. Please consider the following tweaks:")
         for index, check in enumerate(checked):
             if not check:
                 print(f"* {fixes[index]}")
