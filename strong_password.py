@@ -13,10 +13,13 @@ logging.basicConfig(
 )
 logging.disable(logging.CRITICAL)  # Note out to enable logging.
 
-length = re.compile(r"\S{8,}")
-upper = re.compile(r"[A-Z]+")
-lower = re.compile(r"[a-z]+")
-number = re.compile(r"[\d{1,]")
+validators = [
+    re.compile(r"\S{8,}"),
+    re.compile(r"[A-Z]+"),
+    re.compile(r"[a-z]+"),
+    re.compile(r"[\d{1,]"),
+]
+
 fixes = [
     "Make it at least eight characters in length.",
     "Include an uppercase letter.",
@@ -40,7 +43,6 @@ def main() -> None:
 def pass_check(password: str) -> list[bool]:
     """Take in password string, check against regex validators
     and return list of bools (True=pass; False=fail)."""
-    validators = [length, upper, lower, number]
     return [bool(validator.search(password)) for validator in validators]
 
 
