@@ -13,6 +13,10 @@ logging.basicConfig(
 )
 logging.disable(logging.CRITICAL)  # Note out to enable logging.
 
+length = re.compile(r"\S{8,}")
+upper = re.compile(r"[A-Z]+")
+lower = re.compile(r"[a-z]+")
+number = re.compile(r"[\d{1,]")
 fixes = [
     "Make it at least eight characters in length.",
     "Include an uppercase letter.",
@@ -27,23 +31,17 @@ def main() -> None:
     if 0 not in checked:
         print("Password passed. Word!")
     else:
-        print("Your password is weak. Please consider the following tweaks:")
+        print("Your password is weak. Please consider these tweaks:")
         for index, check in enumerate(checked):
             if not check:
                 print(f"* {fixes[index]}")
 
 
 def pass_check(password: str) -> list[bool]:
-    """Take in password string, check against conditions and return list of bools(True=pass; False=fail)."""
-    length = re.compile(r"\S{8,}")
-    upper = re.compile(r"[A-Z]+")
-    lower = re.compile(r"[a-z]+")
-    number = re.compile(r"[\d{1,]")
+    """Take in password string, check against regex validators
+    and return list of bools (True=pass; False=fail)."""
     validators = [length, upper, lower, number]
-    results = [
-        True if validator.search(password) else False for validator in validators
-    ]
-    return results
+    return [bool(validator.search(password)) for validator in validators]
 
 
 if __name__ == "__main__":
