@@ -13,7 +13,7 @@ logging.basicConfig(
 )
 logging.disable(logging.CRITICAL)  # Note out to enable logging.
 
-validators = [
+regexes = [
     re.compile(r"\S{8,}"),
     re.compile(r"[A-Z]+"),
     re.compile(r"[a-z]+"),
@@ -41,9 +41,9 @@ def main() -> None:
 
 
 def pass_check(password: str) -> list[bool]:
-    """Take in password string, check against regex validators
+    """Take in password string, check against regexes
     and return list of bools (True=pass; False=fail)."""
-    return [bool(validator.search(password)) for validator in validators]
+    return [bool(validator.search(password)) for validator in regexes]
 
 
 if __name__ == "__main__":
