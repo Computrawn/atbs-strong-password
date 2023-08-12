@@ -21,9 +21,9 @@ validators = [
 ]
 
 
-def main() -> None:
+def password_checker() -> None:
     """Prompt user for password, check strength and suggest fixes as needed."""
-    checked = pass_check(getpass(prompt="Please enter password here: ", stream=None))
+    checked = check_input(getpass(prompt="Please enter password here: ", stream=None))
     if 0 not in checked:
         print("Password passed. Word!")
     else:
@@ -33,10 +33,14 @@ def main() -> None:
                 print(f"* {validators[index][1]}")
 
 
-def pass_check(password: str) -> list[bool]:
+def check_input(password: str) -> list[bool]:
     """Take in password string, check against regexes
     and return list of bools (True=pass; False=fail)."""
     return [bool(validator[0].search(password)) for validator in validators]
+
+
+def main() -> None:
+    password_checker()
 
 
 if __name__ == "__main__":
