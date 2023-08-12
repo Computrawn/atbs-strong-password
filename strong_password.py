@@ -43,7 +43,7 @@ def main() -> None:
 def pass_check(password: str) -> list[bool]:
     """Take in password string, check against regexes
     and return list of bools (True=pass; False=fail)."""
-    return [bool(validator.search(password)) for validator in regexes]
+    return [bool(regex.search(password)) for regex in regexes]
 
 
 if __name__ == "__main__":
