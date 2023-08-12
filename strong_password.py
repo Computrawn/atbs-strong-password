@@ -21,16 +21,20 @@ validators = [
 ]
 
 
-def password_checker() -> None:
+def password_checker() -> list[str]:
     """Prompt user for password, check strength and suggest fixes as needed."""
     checked = check_input(getpass(prompt="Please enter password here: ", stream=None))
+    fixes = []
     if 0 not in checked:
-        print("Password passed. Word!")
+        fixes.append("Password passed. Word!")
     else:
         print("Your password is weak. Please consider these tweaks:")
-        for index, check in enumerate(checked):
-            if not check:
-                print(f"* {validators[index][1]}")
+        fixes = [
+            f"* {validators[index][1]}"
+            for index, check in enumerate(checked)
+            if not check
+        ]
+    return fixes
 
 
 def check_input(password: str) -> list[bool]:
@@ -40,7 +44,9 @@ def check_input(password: str) -> list[bool]:
 
 
 def main() -> None:
-    password_checker()
+    results = password_checker()
+    for result in results:
+        print(result)
 
 
 if __name__ == "__main__":
